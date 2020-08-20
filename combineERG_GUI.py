@@ -3,7 +3,11 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
 from tkinter import *
+from combineERG import main
+import subprocess
 
+
+subprocess.call('python combineERG.py', shell=True)
 
 def resource_path(relative_path):
     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
@@ -19,7 +23,7 @@ def select_path():
 
 def default_path():
     curr_directory = os.getcwd()
-    curr_directory = os.path.join(curr_directory, "Output")
+    curr_directory = os.path.join(curr_directory, "Output.csv")
     savePath.set(curr_directory)
 
 
@@ -38,13 +42,14 @@ def Loading():
     entry3.place(x=100, y=125)
 
 
-# def dummy1():
-#     main1(path.get(), savePath.get())
-#     completed_popup()
+def dummy1():
+    main(path.get(), savePath.get())
+    completed_popup()
+
 
 root = Tk()
 root.title('Efficiency')
-root.geometry('300x200')
+root.geometry('280x150')
 image = PhotoImage(file=resource_path("images.png"))
 
 path = StringVar()
@@ -69,8 +74,8 @@ button2.place(x=190, y=28)
 button2 = tk.Button(root, text="Default", command=default_path)
 button2.place(x=218, y=29)
 
-# button3 = tk.Button(root, text="Modify Efficiency",  command=dummy1)
-# button3.place(x=30, y=65)
+button1 = tk.Button(root, text="Combine",  command=dummy1)
+button1.place(x=100, y=65)
 
 root.mainloop()
 

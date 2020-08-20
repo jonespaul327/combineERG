@@ -1,2 +1,6 @@
 /FW_ csv_files/*
 /.idea/*
+Output.csv
+*.spec
+/build/*
+/dist/*
