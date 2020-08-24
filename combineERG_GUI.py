@@ -1,13 +1,32 @@
 import os
+import pandas as pd
+import glob
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
 from tkinter import *
-from combineERG import main
 import subprocess
 
+# subprocess.call('python combineERG_GUI.py', shell=True)
 
-subprocess.call('python combineERG.py', shell=True)
+def main(path, savepath):
+    print(savepath)
+    all_files = glob.glob(path + "/*.csv")
+
+    li = []
+
+    for filename in all_files:
+        df = pd.read_csv(filename, index_col=None, header=0)
+        li.append(df)
+
+    frame = pd.concat(li, axis=0, ignore_index=True)
+
+    print(frame)
+
+    frame.to_csv(savepath, index=False)
+
+    os.startfile(savepath)
+
 
 def resource_path(relative_path):
     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
@@ -30,7 +49,8 @@ def default_path():
 def save_path():
     curr_directory = os.getcwd()
     filename = filedialog.askdirectory(initialdir=curr_directory, title="Select Folder")
-    savePath.set(filename)
+    curr_directory = os.path.join(filename, "Output.csv")
+    savePath.set(curr_directory)
 
 
 def completed_popup():
@@ -50,7 +70,7 @@ def dummy1():
 root = Tk()
 root.title('Efficiency')
 root.geometry('280x150')
-image = PhotoImage(file=resource_path("images.png"))
+image1 = PhotoImage(file=resource_path("images.png"))
 
 path = StringVar()
 savePath = StringVar()
@@ -67,9 +87,9 @@ entry.place(x=67, y=7)
 entry2 = tk.Entry(root, width=20, text=savePath)
 entry2.place(x=67, y=32)
 
-button1 = tk.Button(root, image=image, width=20, height=20,  command=select_path)
+button1 = tk.Button(root, image=image1, width=20, height=20,  command=select_path)
 button1.place(x=190, y=3)
-button2 = tk.Button(root, image=image, width=20, height=20,  command=save_path)
+button2 = tk.Button(root, image=image1, width=20, height=20,  command=save_path)
 button2.place(x=190, y=28)
 button2 = tk.Button(root, text="Default", command=default_path)
 button2.place(x=218, y=29)
